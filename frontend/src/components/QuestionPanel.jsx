@@ -1,4 +1,5 @@
 import { QUESTION_COUNT, QUESTIONS } from "../data/questions";
+import { AnalysisLoader } from "./AnalysisLoader";
 import { ProgressIndicator } from "./ProgressIndicator";
 
 export function QuestionPanel({
@@ -23,7 +24,8 @@ export function QuestionPanel({
         : `Еще ${currentStats.missing} символов до устойчивого анализа.`;
 
     return (
-        <main className="content">
+        <main className="content" aria-busy={loading}>
+            {loading && <AnalysisLoader />}
             <div className="content-decor" aria-hidden="true">
                 <span className="decor-orb decor-orb-one" />
                 <span className="decor-orb decor-orb-two" />
@@ -54,6 +56,7 @@ export function QuestionPanel({
                         placeholder="Напишите свободно и на своем языке."
                         minLength={question.minChars}
                         aria-label={question.title}
+                        disabled={loading}
                     />
 
                     <div className={`answer-meter ${currentStats.chars > 0 ? "started" : ""}`}>

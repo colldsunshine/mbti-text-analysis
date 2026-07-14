@@ -383,7 +383,8 @@ textarea {
     width: 100%;
     min-height: 272px;
     padding: 27px 25px;
-    resize: vertical;
+    resize: none;
+    overflow-y: auto;
     border: 1px solid var(--line-strong);
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.82);
@@ -409,6 +410,59 @@ textarea:focus {
 
 textarea::placeholder {
     color: #a1aaa3;
+}
+
+.analysis-loader {
+    position: fixed;
+    z-index: 100;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(248, 247, 245, 0.84);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+}
+
+.analysis-loader-card {
+    width: min(390px, 100%);
+    padding: 48px 32px 42px;
+    border: 1px solid rgba(217, 213, 207, 0.86);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 70px rgba(16, 38, 33, 0.12);
+    text-align: center;
+}
+
+.analysis-loader-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 42px;
+    margin-bottom: 25px;
+}
+
+.analysis-loader-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    box-shadow: 0 8px 18px rgba(16, 38, 33, 0.1);
+    animation: analysis-dot-rise 1.25s var(--ease-out) infinite;
+}
+
+.analysis-loader-card p {
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.analysis-loader-card > span {
+    color: var(--muted);
+    font-size: 14px;
 }
 
 .answer-meter {
