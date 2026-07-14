@@ -1,0 +1,8 @@
+.DS_Store
+.env
+/.idea/
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+backend/*.bin
