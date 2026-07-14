@@ -1,7 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 fastapi>=0.115,<1
 gigachat
 numpy>=1.26,<3
 requests>=2.31,<3
-torch>=2.2
+torch==2.7.1+cpu
 transformers>=4.44,<5
 uvicorn[standard]>=0.30,<1
