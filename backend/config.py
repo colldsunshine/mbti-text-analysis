@@ -6,7 +6,8 @@ import torch
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL_NAME = "cointegrated/rubert-tiny2"
-WEIGHTS_PATH = Path(__file__).resolve().with_name("mbti_stage2_chunked.bin")
+DEFAULT_WEIGHTS_PATH = Path(__file__).resolve().with_name("mbti_stage2_chunked.bin")
+WEIGHTS_PATH = Path(os.getenv("MODEL_PATH", DEFAULT_WEIGHTS_PATH))
 GIGACHAT_AUTH_TOKEN = os.getenv("GIGACHAT_AUTH_TOKEN", "").strip()
 
 MAX_LEN = 512
