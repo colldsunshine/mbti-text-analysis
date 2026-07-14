@@ -1,4 +1,5 @@
-from typing import Any, Dict, List, Optional
+from functools import lru_cache
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import torch
@@ -21,14 +22,21 @@ from backend.scoring import (
 )
 
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = MBTI_BERT(freeze_bert=True).to(DEVICE)
-load_state_dict_strict(model, WEIGHTS_PATH)
-model.eval()
+@lru_cache(maxsize=1)
+def get_inference_artifacts() -> Tuple[AutoTokenizer, MBTI_BERT]:
+    if not WEIGHTS_PATH.is_file():
+        raise FileNotFoundError(f"Model weights not found: {WEIGHTS_PATH}")
+
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    model = MBTI_BERT(freeze_bert=True).to(DEVICE)
+    load_state_dict_strict(model, WEIGHTS_PATH)
+    model.eval()
+    return tokenizer, model
 
 
 @torch.no_grad()
 def predict_text(text: str, questionnaire_answers: Optional[List[str]] = None) -> Dict[str, Any]:
+    tokenizer, model = get_inference_artifacts()
     text_clean = remove_mbti_markers(text)
     if not text_clean:
         text_clean = "Нет данных"

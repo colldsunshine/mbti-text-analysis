@@ -11,11 +11,11 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from backend.config import DEVICE, MODEL_NAME
+from backend.config import DEVICE, MODEL_NAME, WEIGHTS_PATH
 from backend.inference import predict_text
 
 
@@ -38,7 +38,12 @@ app.add_middleware(
 
 @app.get("/health")
 def health() -> Dict[str, Any]:
-    return {"ok": True, "device": str(DEVICE), "model": MODEL_NAME}
+    return {
+        "ok": True,
+        "device": str(DEVICE),
+        "model": MODEL_NAME,
+        "model_weights_found": WEIGHTS_PATH.is_file(),
+    }
 
 
 @app.post("/analyze")
@@ -53,4 +58,7 @@ def analyze(req: AnalyzeRequest) -> Dict[str, Any]:
         parts.append(req.user_message.strip())
 
     text = "\n".join(parts).strip() or "Нет данных"
-    return predict_text(text, questionnaire_answers=answers)
+    try:
+        return predict_text(text, questionnaire_answers=answers)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=503, detail="Model weights are not available yet") from exc
