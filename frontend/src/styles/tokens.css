@@ -49,8 +49,11 @@ textarea {
     font: inherit;
 }
 
-button:focus-visible,
-textarea:focus-visible {
-    outline: 3px solid rgba(121, 154, 74, 0.25);
+button:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--ui-accent) 25%, transparent);
     outline-offset: 3px;
+}
+
+textarea:focus-visible {
+    outline: none;
 }
