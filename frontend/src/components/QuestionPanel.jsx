@@ -76,7 +76,7 @@ export function QuestionPanel({
 
                     <div className="actions">
                         <button className="ghost-btn" onClick={onBack} disabled={currentQuestion === 0} type="button">
-                            <span aria-hidden="true">←</span> Назад
+                            <span aria-hidden="true">←</span><span className="btn-label">Назад</span>
                         </button>
                         <button className="main-btn" onClick={onNext} disabled={loading || (isLast ? !answerStats.allComplete : !canContinue)} type="button">
                             {isLast ? (loading ? "Анализ..." : "Построить портрет") : "Продолжить"} <span aria-hidden="true">→</span>

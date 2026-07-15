@@ -38,13 +38,20 @@ export default function App() {
         const nextAccent = getNextAccent(accent.id);
         window.sessionStorage.setItem("mbti-accent", nextAccent.id);
         setAccent(nextAccent);
+        window.scrollTo({ top: 0, behavior: "auto" });
         questionnaire.restart();
     };
 
     useEffect(() => {
+        const isMobile = window.matchMedia("(max-width: 960px)").matches;
+
+        if (isMobile && !questionnaire.result) {
+            return;
+        }
+
         window.scrollTo({
             top: 0,
-            behavior: "smooth"
+            behavior: isMobile ? "auto" : "smooth",
         });
     }, [questionnaire.currentQuestion, questionnaire.result]);
 

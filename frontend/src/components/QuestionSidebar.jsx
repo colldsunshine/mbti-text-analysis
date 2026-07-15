@@ -55,6 +55,7 @@ export const QuestionSidebar = memo(function QuestionSidebar({
                             className={`nav-item ${active ? "active-nav" : ""} ${progress > 0 ? "started" : ""} ${complete ? "complete" : ""}`}
                             onClick={() => onSelect(index)}
                             aria-current={active ? "step" : undefined}
+                            aria-label={`${index + 1}. ${question.title}${complete ? " — заполнено" : ""}`}
                             type="button"
                         >
                             <span className="nav-left">
